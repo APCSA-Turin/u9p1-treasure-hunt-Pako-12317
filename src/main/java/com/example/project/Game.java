@@ -58,6 +58,7 @@ public class Game{
                 break;
             }
         }
+        scanner.close();
     }
 
     public void initialize() {
