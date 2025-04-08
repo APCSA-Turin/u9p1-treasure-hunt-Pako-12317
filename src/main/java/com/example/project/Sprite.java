@@ -1,34 +1,32 @@
 package com.example.project;
 
 public class Sprite {
-    private int x, y;
+    private int x, y; // x = column, y = row
 
     public Sprite(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.x = x; // Column
+        this.y = y; // Row
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getX() { return x; } // Column
+    public int getY() { return y; } // Row
 
-    public void setX(int x) { this.x = x; }
-    public void setY(int y) { this.y = y; }
+    public void setX(int x) { this.x = x; } // Column
+    public void setY(int y) { this.y = y; } // Row
 
-    public String getCoords() { // returns the coordinates of the sprite ->"(x,y)"
-        return "(" + x + "," + y + ")";
+    public String getCoords() { // returns the coordinates of the sprite -> "(row, column)"
+        return "(" + y + "," + x + ")";
     }
 
     public String getRowCol(int size) { // returns the row and column of the sprite -> "[row][col]"
-        int row = size - 1 - y;
-        int col = x;
-        return "[" + row + "][" + col + "]";
+        return "[" + y + "][" + x + "]";
     }
 
-    public void move(String direction) { // you can leave this empty
-        // Default behavior (can be overridden by subclasses)
+    public void move(String direction) { // Default behavior (can be overridden by subclasses)
+        // Leave empty for now
     }
 
-    public void interact() { // you can leave this empty
-        // Default behavior (can be overridden by subclasses)
+    public void interact() { // Default behavior (can be overridden by subclasses)
+        // Leave empty for now
     }
 }

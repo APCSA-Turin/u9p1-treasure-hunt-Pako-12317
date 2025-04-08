@@ -20,30 +20,27 @@ public class Player extends Sprite {
     @Override
     public void move(String direction) {
         if (direction.equals("w")) {
-            setY(getY() + 1); // Moving up should increase the y-coordinate
+            setY(getY() + 1); // Move up
         } else if (direction.equals("a")) {
-            setX(getX() - 1);
+            setX(getX() - 1); // Move left
         } else if (direction.equals("s")) {
-            setY(getY() - 1); // Moving down should decrease the y-coordinate
+            setY(getY() - 1); // Move down
         } else if (direction.equals("d")) {
-            setX(getX() + 1);
+            setX(getX() + 1); // Move right
         }
     }
 
     public void interact(int size, String direction, int numTreasures, Object obj) {
         if (obj instanceof Treasure) {
             treasureCount++;
-            if (treasureCount == numTreasures) {
-                win = true;
-            }
         } else if (obj instanceof Enemy) {
             numLives--;
-            if (numLives == 0) {
-                // Handle game over
-            }
         } else if (obj instanceof Trophy) {
-            if (treasureCount == numTreasures) {
+            // Only allow interaction with the Trophy if all treasures are collected
+            if (treasureCount >= numTreasures) {
                 win = true;
+            } else {
+                System.out.println("You need to collect all treasures before interacting with the Trophy!");
             }
         }
     }
@@ -60,6 +57,22 @@ public class Player extends Sprite {
         } else {
             return false;
         }
+    }
+
+    public boolean isValid(int size, String direction, Object target, int numTreasures) {
+        // Check if the move is within bounds
+        if (direction.equals("w") && getY() >= size - 1) return false;
+        if (direction.equals("a") && getX() <= 0) return false;
+        if (direction.equals("s") && getY() <= 0) return false;
+        if (direction.equals("d") && getX() >= size - 1) return false;
+
+        // Check if the target is a Trophy and if all treasures are collected
+        if (target instanceof Trophy && treasureCount < numTreasures) {
+            System.out.println("You need to collect all treasures before interacting with the Trophy!");
+            return false;
+        }
+
+        return true;
     }
 
     @Override

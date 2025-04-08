@@ -18,16 +18,27 @@ public class Grid {
     public Sprite[][] getGrid() { return grid; }
     public int getSize() { return size; }
 
-    public void placeSprite(Sprite s) { // place sprite in new spot
-        grid[s.getX()][s.getY()] = s;
+    public void placeSprite(Sprite s) {
+        grid[s.getY()][s.getX()] = s;
     }
 
-    public void placeSprite(Sprite s, String direction) { // place sprite in a new spot based on direction
-        int x = s.getX();
-        int y = s.getY();
-        grid[x][y] = new Dot(x, y); // Clear the current position
-        s.move(direction);
-        grid[s.getX()][s.getY()] = s;
+    public void placeSprite(Sprite s, String direction) {
+        // Clear the previous position
+        grid[s.getY()][s.getX()] = new Dot(s.getX(), s.getY());
+
+        // Update the sprite's position
+        if (direction.equals("w")) {
+            s.setY(s.getY() + 1); // Move up
+        } else if (direction.equals("a")) {
+            s.setX(s.getX() - 1); // Move left
+        } else if (direction.equals("s")) {
+            s.setY(s.getY() - 1); // Move down
+        } else if (direction.equals("d")) {
+            s.setX(s.getX() + 1); // Move right
+        }
+
+        // Place the sprite in the new position
+        placeSprite(s);
     }
 
     public void display() { // print out the current grid to the screen
@@ -39,10 +50,10 @@ public class Grid {
                     System.out.print(" E");
                 } else if (grid[j][i] instanceof Player) {
                     System.out.print(" P");
-                } else if (grid[j][i] instanceof Treasure) {
-                    System.out.print(" T");
                 } else if (grid[j][i] instanceof Trophy) {
                     System.out.print(" C");
+                } else if (grid[j][i] instanceof Treasure) {
+                    System.out.print(" T");
                 }
             }
             System.out.println();

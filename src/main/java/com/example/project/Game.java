@@ -31,45 +31,71 @@ public class Game{
         }
     }
 
-    public void play(){ //write your game logic here
+    public void play() {
         Scanner scanner = new Scanner(System.in);
 
-        while(true){
-            try {
-                Thread.sleep(100); // Wait for 1/10 seconds
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            clearScreen(); // Clear the screen at the beggining of the while loop
+        while (true) {
+            clearScreen();
             grid.display();
 
+            System.out.println("Enter your move (w/a/s/d) or 'q' to quit: ");
             String direction = scanner.nextLine();
-            if (player.isValid(size, direction)) {
-                grid.placeSprite(player, direction);
-            }
 
-            if (player.getLives() == 0) {
-                grid.gameover();
+            // Check if the player wants to quit
+            if (direction.equals("q")) {
+                System.out.println("You quit the game. Goodbye!");
                 break;
             }
 
-            if (player.getWin()) {
-                grid.win();
-                break;
+            // Get the target object based on the player's intended move
+            int targetX = player.getX();
+            int targetY = player.getY();
+            if (direction.equals("w")) targetY++;
+            if (direction.equals("a")) targetX--;
+            if (direction.equals("s")) targetY--;
+            if (direction.equals("d")) targetX++;
+
+            // Ensure the target is within bounds
+            if (targetX < 0 || targetX >= size || targetY < 0 || targetY >= size) {
+                System.out.println("Invalid move. Try again.");
+                continue;
+            }
+
+            Object target = grid.getGrid()[targetY][targetX];
+
+            // Check if the move is valid
+            if (player.isValid(size, direction, target, treasures.length)) {
+                player.move(direction);
+                player.interact(size, direction, treasures.length, target);
+
+                // Place the player on the grid
+                grid.placeSprite(player);
+
+                // Check for win or loss
+                if (player.getWin()) {
+                    System.out.println("You win!");
+                    break;
+                } else if (player.getLives() <= 0) {
+                    System.out.println("Game over! You lost all your lives.");
+                    break;
+                }
+            } else {
+                System.out.println("Invalid move. Try again.");
             }
         }
+
         scanner.close();
     }
 
     public void initialize() {
         grid = new Grid(size);
-        player = new Player(0, 0);
+        player = new Player(0, 9);
         grid.placeSprite(player);
 
         // Initialize enemies, treasures, and trophy
         enemies = new Enemy[] { new Enemy(8, 8), new Enemy(5, 5) };
         treasures = new Treasure[] { new Treasure(1, 2), new Treasure(7, 2) };
-        trophy = new Trophy(9, 9);
+        trophy = new Trophy(0, 9);
 
         for (Enemy enemy : enemies) {
             grid.placeSprite(enemy);
