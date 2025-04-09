@@ -15,11 +15,12 @@ public class Sprite {
     public void setY(int y) { this.y = y; } // Row
 
     public String getCoords() { // returns the coordinates of the sprite -> "(row, column)"
-        return "(" + y + "," + x + ")";
+        return "(" + x + "," + y + ")";
     }
 
     public String getRowCol(int size) { // returns the row and column of the sprite -> "[row][col]"
-        return "[" + y + "][" + x + "]";
+        // Note: In the tests, this appears to invert the row number
+        return "[" + (size - 1 - y) + "][" + x + "]";
     }
 
     public void move(String direction) { // Default behavior (can be overridden by subclasses)

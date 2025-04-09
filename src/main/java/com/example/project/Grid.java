@@ -10,7 +10,7 @@ public class Grid {
         grid = new Sprite[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                grid[i][j] = new Dot(i, j);
+                grid[i][j] = new Dot(j, i);
             }
         }
     }
@@ -23,36 +23,40 @@ public class Grid {
     }
 
     public void placeSprite(Sprite s, String direction) {
-        // Clear the previous position
-        grid[s.getY()][s.getX()] = new Dot(s.getX(), s.getY());
-
-        // Update the sprite's position
+        // Clear the previous position before the move
+        int oldX = s.getX();
+        int oldY = s.getY();
+        
+        // Move according to direction (already done in Player.move(), this is just to track the old position)
         if (direction.equals("w")) {
-            s.setY(s.getY() + 1); // Move up
+            oldY--; // Previous y before moving up
         } else if (direction.equals("a")) {
-            s.setX(s.getX() - 1); // Move left
+            oldX++; // Previous x before moving left
         } else if (direction.equals("s")) {
-            s.setY(s.getY() - 1); // Move down
+            oldY++; // Previous y before moving down
         } else if (direction.equals("d")) {
-            s.setX(s.getX() + 1); // Move right
+            oldX--; // Previous x before moving right
         }
-
-        // Place the sprite in the new position
-        placeSprite(s);
+        
+        // Place a Dot at the old position
+        grid[oldY][oldX] = new Dot(oldX, oldY);
+        
+        // Place the sprite at its new position
+        grid[s.getY()][s.getX()] = s;
     }
 
     public void display() { // print out the current grid to the screen
-        for (int i = 0; i < size; i++) {
+        for (int i = size - 1; i >= 0; i--) { // Start from top row (highest y)
             for (int j = 0; j < size; j++) {
-                if (grid[j][i] instanceof Dot) {
+                if (grid[i][j] instanceof Dot) {
                     System.out.print("⬜");
-                } else if (grid[j][i] instanceof Enemy) {
+                } else if (grid[i][j] instanceof Enemy) {
                     System.out.print(" E");
-                } else if (grid[j][i] instanceof Player) {
+                } else if (grid[i][j] instanceof Player) {
                     System.out.print(" P");
-                } else if (grid[j][i] instanceof Trophy) {
+                } else if (grid[i][j] instanceof Trophy) {
                     System.out.print(" C");
-                } else if (grid[j][i] instanceof Treasure) {
+                } else if (grid[i][j] instanceof Treasure) {
                     System.out.print(" T");
                 }
             }

@@ -31,7 +31,7 @@ public class Player extends Sprite {
     }
 
     public void interact(int size, String direction, int numTreasures, Object obj) {
-        if (obj instanceof Treasure) {
+        if (obj instanceof Treasure && !(obj instanceof Trophy)) {
             treasureCount++;
         } else if (obj instanceof Enemy) {
             numLives--;
@@ -61,10 +61,9 @@ public class Player extends Sprite {
 
     public boolean isValid(int size, String direction, Object target, int numTreasures) {
         // Check if the move is within bounds
-        if (direction.equals("w") && getY() >= size - 1) return false;
-        if (direction.equals("a") && getX() <= 0) return false;
-        if (direction.equals("s") && getY() <= 0) return false;
-        if (direction.equals("d") && getX() >= size - 1) return false;
+        if (!isValid(size, direction)) {
+            return false;
+        }
 
         // Check if the target is a Trophy and if all treasures are collected
         if (target instanceof Trophy && treasureCount < numTreasures) {
@@ -85,6 +84,3 @@ public class Player extends Sprite {
         return "Player:" + super.getRowCol(size);
     }
 }
-
-
-

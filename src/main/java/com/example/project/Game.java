@@ -65,18 +65,17 @@ public class Game{
 
             // Check if the move is valid
             if (player.isValid(size, direction, target, treasures.length)) {
+                Object originalTarget = target; // Store the target before moving
                 player.move(direction);
-                player.interact(size, direction, treasures.length, target);
-
-                // Place the player on the grid
-                grid.placeSprite(player);
+                grid.placeSprite(player, direction);
+                player.interact(size, direction, treasures.length, originalTarget);
 
                 // Check for win or loss
                 if (player.getWin()) {
-                    System.out.println("You win!");
+                    grid.win();
                     break;
                 } else if (player.getLives() <= 0) {
-                    System.out.println("Game over! You lost all your lives.");
+                    grid.gameover();
                     break;
                 }
             } else {
@@ -89,13 +88,13 @@ public class Game{
 
     public void initialize() {
         grid = new Grid(size);
-        player = new Player(0, 9);
+        player = new Player(0, 0);
         grid.placeSprite(player);
 
         // Initialize enemies, treasures, and trophy
         enemies = new Enemy[] { new Enemy(8, 8), new Enemy(5, 5) };
-        treasures = new Treasure[] { new Treasure(1, 2), new Treasure(7, 2) };
-        trophy = new Trophy(0, 9);
+        treasures = new Treasure[] { new Treasure(2, 2), new Treasure(7, 2) };
+        trophy = new Trophy(9, 9);
 
         for (Enemy enemy : enemies) {
             grid.placeSprite(enemy);
