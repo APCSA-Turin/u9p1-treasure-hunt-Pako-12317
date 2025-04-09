@@ -1,33 +1,35 @@
 package com.example.project;
 
+// Base class for game objects
 public class Sprite {
-    private int x, y; // x = column, y = row
+    private int x, y; // position
 
     public Sprite(int x, int y) {
-        this.x = x; // Column
-        this.y = y; // Row
+        this.x = x;
+        this.y = y;
     }
 
-    public int getX() { return x; } // Column
-    public int getY() { return y; } // Row
+    public int getX() { return x; }
+    public int getY() { return y; }
 
-    public void setX(int x) { this.x = x; } // Column
-    public void setY(int y) { this.y = y; } // Row
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
 
-    public String getCoords() { // returns the coordinates of the sprite -> "(row, column)"
+    // Returns (x,y) coordinate
+    public String getCoords() {
         return "(" + x + "," + y + ")";
     }
 
-    public String getRowCol(int size) { // returns the row and column of the sprite -> "[row][col]"
-        // Note: In the tests, this appears to invert the row number
+    // Returns grid array position [row][col]
+    public String getRowCol(int size) {
         return "[" + (size - 1 - y) + "][" + x + "]";
     }
 
-    public void move(String direction) { // Default behavior (can be overridden by subclasses)
-        // Leave empty for now
+    //move method (will be overridden)
+    public void move(String direction) {
     }
 
-    public void interact() { // Default behavior (can be overridden by subclasses)
-        // Leave empty for now
+    //interact method (will be overridden)
+    public void interact() {
     }
 }

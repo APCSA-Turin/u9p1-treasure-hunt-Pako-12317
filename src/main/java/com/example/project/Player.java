@@ -2,9 +2,9 @@ package com.example.project;
 
 // DO NOT DELETE ANY METHODS BELOW
 public class Player extends Sprite {
-    private int treasureCount;
-    private int numLives;
-    private boolean win;
+    private int treasureCount; // treasures collected
+    private int numLives;      // lives remaining
+    private boolean win;       // win status
 
     public Player(int x, int y) {
         super(x, y);
@@ -32,9 +32,9 @@ public class Player extends Sprite {
 
     public void interact(int size, String direction, int numTreasures, Object obj) {
         if (obj instanceof Treasure && !(obj instanceof Trophy)) {
-            treasureCount++;
+            treasureCount++; // Collect treasure
         } else if (obj instanceof Enemy) {
-            numLives--;
+            numLives--; // Encounter enemy
         } else if (obj instanceof Trophy) {
             // Only allow interaction with the Trophy if all treasures are collected
             if (treasureCount >= numTreasures) {
