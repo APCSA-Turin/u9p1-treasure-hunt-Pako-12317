@@ -1,21 +1,21 @@
 package com.example.project;
 import java.util.Scanner;
 
-public class Game{
+public class Game {
     private Grid grid;
     private Player player;
     private Enemy[] enemies;
     private Treasure[] treasures;
     private Trophy trophy;
-    private int size; 
+    private int size;
 
-    public Game(int size){ //the constructor should call initialize() and play()
+    public Game(int size) { // The constructor should call initialize() and play()
         this.size = size;
         initialize();
         play();
     }
 
-    public static void clearScreen() { //do not modify
+    public static void clearScreen() { // Do not modify
         try {
             final String os = System.getProperty("os.name").toLowerCase();
             if (os.contains("win")) {
@@ -72,10 +72,14 @@ public class Game{
 
                 // Check for win or loss
                 if (player.getWin()) {
-                    grid.win();
+                    clearScreen();
+                    grid.display();
+                    System.out.println("Congratulations! You collected all treasures and reached the trophy!");
                     break;
                 } else if (player.getLives() <= 0) {
-                    grid.gameover();
+                    clearScreen();
+                    grid.display();
+                    System.out.println("Game Over! You lost all your lives.");
                     break;
                 }
             } else {
